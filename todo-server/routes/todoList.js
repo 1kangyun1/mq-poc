@@ -1,9 +1,14 @@
 var express = require('express');
 const { Pool } = require('pg');
+const todoDB = require('./components/todoDB');
 
 var router = express.Router();
 
+const DB = new todoDB();
+
 router.post('/:id', async(req, res) => {
+  
+  /**
   try {
     const pool = new Pool({
       connectionString: process.env.DATABASE_URL,
@@ -22,9 +27,12 @@ router.post('/:id', async(req, res) => {
     console.error(err);
     res.send("Error " + err);
   }
+   */
 });
 
 router.get('/', async(req, res) => {
+  res.json(DB.todoList());
+  /**
   try {
     const pool = new Pool({
       connectionString: process.env.DATABASE_URL,
@@ -41,6 +49,7 @@ router.get('/', async(req, res) => {
     console.error(err);
     res.send("Error " + err);
   }
+  */
 });
 
 module.exports = router;
