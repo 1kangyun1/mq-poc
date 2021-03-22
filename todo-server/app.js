@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 var todoListRouter = require('./routes/todoList');
 var delTodoRouter = require('./routes/delTodo');
 var createTodoRouter = require('./routes/createTodo');
+const todoDB = require('./routes/components/todoDB');
 
 
 var app = express();
@@ -26,10 +27,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
 
+const DB = new todoDB();
+const DBHandler = (req, res, next) => {
+  res.locals.DB = DB;
+  next();
+}
+
 app.use('/', indexRouter);
-app.use('/todoList', todoListRouter);
-app.use('/todoList/delete', delTodoRouter);
-app.use('/todoList/create', createTodoRouter);
+app.use('/todoList', DBHandler, todoListRouter);
+app.use('/todoList/delete', DBHandler, delTodoRouter);
+app.use('/todoList/create', DBHandler, createTodoRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

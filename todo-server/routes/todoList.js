@@ -1,55 +1,18 @@
 var express = require('express');
-const { Pool } = require('pg');
-const todoDB = require('./components/todoDB');
 
 var router = express.Router();
 
-const DB = new todoDB();
-
 router.post('/:id', async(req, res) => {
-  
-  /**
-  try {
-    const pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: {
-        rejectUnauthorized: false
-      }
-    });
-
-    const client = await pool.connect();
-    result = await client.query('SELECT * FROM todos WHERE id = $1;', [req.params.id]);
-    result = await client.query('UPDATE todos SET finished = $1 WHERE id = $2 RETURNING *;', [!result.rows[0].finished, req.params.id]);
-    
-    res.json( result.rows );
-    client.release();
-  } catch (err) {
-    console.error(err);
-    res.send("Error " + err);
+  for(let todo of res.locals.DB.todos){
+    if(todo.id == req.params.id){
+      todo.finished = !todo.finished;
+      res.json(todo);
+    }
   }
-   */
 });
 
 router.get('/', async(req, res) => {
-  res.json(DB.todoList());
-  /**
-  try {
-    const pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: {
-        rejectUnauthorized: false
-      }
-    });
-
-    const client = await pool.connect();
-    const result = await client.query('SELECT * FROM todos ORDER BY time_created;');
-    res.json( result.rows );
-    client.release();
-  } catch (err) {
-    console.error(err);
-    res.send("Error " + err);
-  }
-  */
+  res.json(res.locals.DB.todos);
 });
 
 module.exports = router;
