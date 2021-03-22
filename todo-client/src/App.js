@@ -16,13 +16,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('https://brian-todos.herokuapp.com/todoList')
+    axios.get('http://localhost:9000/todoList')
       .then(res => this.setState({ todos: res.data }));
   }
 
   // Toggle Complete
   markComplete = (id) => {
-    axios.post(`https://brian-todos.herokuapp.com/todoList/${id}`)
+    axios.post(`http://localhost:9000/todoList/${id}`)
       .then(res => {
         console.log(res.data);
         this.setState({ todos: this.state.todos.map(todo => {
@@ -36,13 +36,13 @@ class App extends Component {
 
   // Delete Todo
   delTodo = (id) => {
-    axios.delete(`https://brian-todos.herokuapp.com/todoList/delete/${id}`)
+    axios.delete(`http://localhost:9000/todoList/delete/${id}`)
       .then(res => this.setState({ todos: [...this.state.todos.filter(todo => todo.id !== id)] }))
   }
 
   // Add Todo
   addTodo = (todo) => {
-    axios.post('https://brian-todos.herokuapp.com/todoList/create',{
+    axios.post('http://localhost:9000/todoList/create',{
       todo: todo,
       finished: false
     })
