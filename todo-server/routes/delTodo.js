@@ -1,5 +1,4 @@
 var express = require('express');
-const { Pool } = require('pg');
 
 var router = express.Router();
 

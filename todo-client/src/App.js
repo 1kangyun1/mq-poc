@@ -45,8 +45,7 @@ class App extends Component {
     axios.post('http://localhost:9000/todoList/create',{
       todo: todo,
       finished: false
-    })
-      .then(res => this.setState({ todos: [...this.state.todos, res.data] }))
+    }).then(res => this.setState({ todos: [...this.state.todos, res.data] }))
   }
 
   render() {

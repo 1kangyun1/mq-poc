@@ -1,8 +1,6 @@
-
-
 class todoDB {
   constructor(){
-    this.todos = [{id:1, todo: "test1", finished: false, time: Date.now()}];
+    this.todos = [{id:'test', todo: "test1", finished: false, time: Date.now()}];
   }
 }
 
